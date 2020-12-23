@@ -5,7 +5,7 @@
   - R: `v4.0.3`  
   - RSTUDIO: `v1.3.1093`  
   - PANDOC\_TEMPLATES: `v2.11.3`  
-  - GCTA: `vgcta_1.93.2beta`  
+  - GCTA: `v1.93.2beta`  
   - HTSLIB: `v1.11`  
   - BCFTOOLS: `v1.11`  
   - S6: `v1.21.7.0`
