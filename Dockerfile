@@ -8,7 +8,7 @@ ENV PANDOC_TEMPLATES_VERSION=2.11.3
 ENV GCTA_VERSION=1.93.2beta
 ENV HTSLIB_VERSION=1.11
 ENV BCFTOOLS_VERSION=1.11
-ENV S6_VERSION=1.21.7.0
+ENV S6_VERSION=2.1.0.2
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 
@@ -266,9 +266,7 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.
 
 
 ## Install Rstudio server
-RUN wget -q -P /tmp/ http://ftp.fr.debian.org/debian/pool/main/o/openssl1.0/libssl1.0.2_1.0.2u-1~deb9u1_amd64.deb \
-  && dpkg -i /tmp/libssl1.0.2_1.0.2u-1~deb9u1_amd64.deb \
-  && wget -q -P /tmp/ https://download2.rstudio.org/server/bionic/amd64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb \
+RUN wget -q -P /tmp/ https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-${RSTUDIO_VERSION}-amd64.deb \
   && dpkg -i /tmp/rstudio-server-*-amd64.deb \
   ## Symlink pandoc & standard pandoc templates for use system-wide
   && ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin \
@@ -294,7 +292,8 @@ RUN wget -q -P /tmp/ http://ftp.fr.debian.org/debian/pool/main/o/openssl1.0/libs
   && echo 'lock-type=advisory' >> /etc/rstudio/file-locks \
   ## Set up S6 init system
   && wget -q -P /tmp/ https://github.com/just-containers/s6-overlay/releases/download/v${S6_VERSION}/s6-overlay-amd64.tar.gz \
-  && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
+  && tar hzxf /tmp/s6-overlay-amd64.tar.gz -C / --exclude=usr/bin/execlineb \
+  && tar hzxf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin/execlineb && $_clean \
   && mkdir -p /etc/services.d/rstudio \
   && echo '#!/usr/bin/with-contenv bash \
     \n## load /etc/environment vars first: \
