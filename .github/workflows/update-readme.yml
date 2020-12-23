@@ -1,0 +1,33 @@
+name: Update README.md
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: r-lib/actions/setup-r@master
+    - name: Cache R packages
+      uses: actions/cache@v1
+      with:
+        path: ${{ env.R_LIBS_USER }}
+        key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+        restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+    - name: Install rmarkdown
+      run: |
+        Rscript -e 'install.packages("rmarkdown")'
+    - name: Compute README.md
+      run: | 
+        library(rmarkdown)
+        render("README.Rmd")
+      shell: Rscript {0}
+    - name: Commit README.md
+      run: | 
+        git config --global user.name "${{secrets.NAME}}"
+        git commit README.md -m 'Update README.md' || echo "No changes to commit"
+        git push || echo "No changes to commit"
