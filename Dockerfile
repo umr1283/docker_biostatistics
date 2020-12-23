@@ -5,7 +5,7 @@ ENV UMR1283_VERSION=0.8.0
 ENV R_VERSION=4.0.3
 ENV RSTUDIO_VERSION=1.3.1093
 ENV PANDOC_TEMPLATES_VERSION=2.11.3
-ENV GCTA_VERSION=gcta_1.93.2beta
+ENV GCTA_VERSION=1.93.2beta
 ENV HTSLIB_VERSION=1.11
 ENV BCFTOOLS_VERSION=1.11
 ENV S6_VERSION=1.21.7.0
@@ -195,9 +195,9 @@ RUN git -C /tmp/ clone --branch ${HTSLIB_VERSION} git://github.com/samtools/htsl
   
 
 ## Install gcta
-RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/${GCTA_VERSION}.zip \
-  && unzip -d /tmp/ /tmp/${GCTA_VERSION}.zip \
-  && cp /tmp/${GCTA_VERSION}/gcta64 /usr/bin/ \
+RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/gcta_${GCTA_VERSION}.zip \
+  && unzip -d /tmp/ /tmp/gcta_${GCTA_VERSION}.zip \
+  && cp /tmp/gcta_${GCTA_VERSION}/gcta64 /usr/bin/ \
   && rm -rf /tmp/*
 
 
