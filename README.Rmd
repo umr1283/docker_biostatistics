@@ -1,0 +1,12 @@
+---
+output: github_document
+---
+
+# Biostatistics Docker Image
+
+```{r, results = "asis", echo = FALSE}
+cat(
+  gsub("ENV (.*)_VERSION=(.*)", "* \\1: `v\\2`  ", readLines("Dockerfile", n = 15)[4:11]), 
+  sep = "\n"
+)
+```
