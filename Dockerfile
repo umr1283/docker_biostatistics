@@ -88,6 +88,7 @@ RUN apt-get update \
     liblzma-dev \ 
     liblzma5 \ 
     libmagick++-dev \ 
+    libmpfr-dev \
     libobjc4 \ 
     libopenblas-dev \ 
     libopenmpi-dev \ 
