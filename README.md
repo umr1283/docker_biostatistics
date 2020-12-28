@@ -7,4 +7,4 @@
 * GCTA: `v1.93.2beta`  
 * HTSLIB: `v1.11`  
 * BCFTOOLS: `v1.11`  
-* S6: `v1.21.7.0`  
+* S6: `v2.1.0.2`  
