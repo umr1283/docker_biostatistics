@@ -5,7 +5,7 @@ output_directory <- here("outputs", "99-new_script")
 dir.create(output_directory, recursive = TRUE, showWarnings = FALSE, mode = "0775")
 
 
-### Load packages ==================================================================================
+### Load Packages ==================================================================================
 suppressPackageStartupMessages({
   # library(ggplot2)
 })
