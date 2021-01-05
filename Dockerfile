@@ -259,10 +259,10 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.
   && chown root:staff /usr/local/lib/R/site-library \
   && chmod g+wx /usr/local/lib/R/site-library \
   ## Fix library path
-  && echo "R_LIBS_USER='~/R/library' \
+  && echo "R_LIBS_USER=~/R/library \
     \nTZ='Etc/UTC' \
     \nR_MAX_NUM_DLLS=300 \
-    \nRENV_PATHS_CACHE='/renv_cache' \
+    \nRENV_PATHS_CACHE=/renv_cache \
     " >> /usr/local/lib/R/etc/Renviron \
   && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'}" >> /usr/local/lib/R/etc/Renviron \
   && rm -rf /tmp/*
