@@ -328,6 +328,7 @@ RUN Rscript \
     "reprex", \
     "palmerpenguins", \
     "data.table", \
+    "R.utils", \
     "tidyverse", \
     "shiny", \
     "clisymbols", \
