@@ -1,0 +1,276 @@
+FROM library/debian:buster
+
+
+ENV SHINY_VERSION= 1.5.16.958
+ENV R_VERSION=4.0.3
+ENV PANDOC_TEMPLATES_VERSION=2.11.3
+ENV S6_VERSION=2.1.0.2
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
+
+## Set locales to en_US
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends locales \
+  && sed -i '/^#.* en_US.* /s/^#//' /etc/locale.gen \
+  && sed -i '/^#.* en_GB.* /s/^#//' /etc/locale.gen \
+  && locale-gen en_GB.UTF-8 \
+  && locale-gen en_US.UTF-8 \
+  && /usr/sbin/update-locale LANG="en_US.UTF-8" \
+  && /usr/sbin/update-locale LANGUAGE="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_CTYPE="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_NUMERIC="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_TIME="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_COLLATE="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_MONETARY="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_MESSAGES="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_PAPER="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_NAME="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_ADDRESS="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_TELEPHONE="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_MEASUREMENT="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_IDENTIFICATION="en_US.UTF-8" \
+  && /usr/sbin/update-locale LC_ALL="en_US.UTF-8"
+
+
+## Set environment variable for path and locales
+ENV LC_ALL=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LC_COLLATE=en_US.UTF-8
+
+
+## Install libraries
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends dialog apt-utils \
+  && apt-get install -y --no-install-recommends \
+    autoconf \ 
+    automake \ 
+    bash-completion \ 
+    build-essential \ 
+    ca-certificates \ 
+    cargo \ 
+    curl \ 
+    default-jdk \ 
+    fastqtl \ 
+    ffmpeg \ 
+    file \ 
+    fonts-texgyre \ 
+    g++ \ 
+    gdebi \
+    gfortran \ 
+    git \ 
+    gsfonts \ 
+    htop \ 
+    libapparmor1 \ 
+    libavfilter-dev \ 
+    libblas-dev \ 
+    libbz2-1.0 \ 
+    libbz2-dev \ 
+    libcairo2-dev \ 
+    libclang-dev \ 
+    libcurl4-openssl-dev \ 
+    libedit2 \ 
+    libgc1c2 \ 
+    libgdal-dev \ 
+    libgit2-dev \
+    libgsl-dev \ 
+    libicu-dev \ 
+    libio-socket-ssl-perl \ 
+    libjpeg-dev \ 
+    libjpeg62-turbo \ 
+    libleptonica-dev \
+    liblzma-dev \ 
+    liblzma5 \ 
+    libmagick++-dev \ 
+    libmpfr-dev \
+    libobjc4 \ 
+    libopenblas-dev \ 
+    libopenmpi-dev \ 
+    libpango1.0-dev \ 
+    libpangocairo-1.0-0 \ 
+    libpcre2-dev \
+    libpcre3 \ 
+    libpcre3-dev \ 
+    libpng-dev \ 
+    libpng16-16 \ 
+    libpoppler-cpp-dev \
+    libreadline-dev \ 
+    libreadline7 \ 
+    librsvg2-dev \ 
+    libsasl2-dev \ 
+    libsodium-dev \
+    libssl-dev \ 
+    libssh2-1-dev \
+    libtesseract-dev \ 
+    libtiff5 \ 
+    libtiff5-dev \ 
+    libudunits2-dev \ 
+    libv8-dev \ 
+    libx11-dev \ 
+    libxml2-dev \ 
+    libxt-dev \ 
+    lmodern \ 
+    lsb-release \ 
+    make \ 
+    man-db \ 
+    multiarch-support \ 
+    nano \
+    openssh-client \ 
+    pandoc \ 
+    pandoc-citeproc \ 
+    perl \ 
+    plink \ 
+    plink1.9 \ 
+    procps \ 
+    psmisc \ 
+    python-setuptools \ 
+    qpdf \ 
+    sudo \ 
+    tar \ 
+    tcl8.6-dev \ 
+    tesseract-ocr-eng \ 
+    texinfo \ 
+    tk8.6-dev \ 
+    unzip \ 
+    vcftools \ 
+    wget \ 
+    x11proto-core-dev \ 
+    xauth \ 
+    xclip \ 
+    xfonts-base \ 
+    xtail \
+    xvfb \ 
+    zip \ 
+    zlib1g \ 
+    zlib1g-dev \
+  && apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/ \
+  && rm -rf /tmp/*
+
+
+## Configure git
+RUN git config --system core.sharedRepository 0775 \
+  && git config --system credential.helper "cache --timeout=3600" \
+  && git config --system push.default simple \
+  && git config --system core.editor "nano -w" \
+  && git config --system color.ui auto 
+
+
+## Install libraries for databases
+# https://dev.mysql.com/downloads/connector/odbc/
+# https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/mysql-connector-odbc-setup_8.0.22-1debian10_amd64.deb
+RUN apt-get update \
+  && apt-get install -y tdsodbc odbc-postgresql libsqliteodbc unixodbc unixodbc-dev \
+  && wget -q -P /tmp/ https://dev.mysql.com/get/Downloads/Connector-ODBC/8.0/mysql-connector-odbc-8.0.19-linux-debian10-x86-64bit.tar.gz \
+  && tar -C /tmp/ -xvf /tmp/mysql-connector-odbc-8.0.19-linux-debian10-x86-64bit.tar.gz \
+  && cp /tmp/mysql-connector-odbc-8.0.19-linux-debian10-x86-64bit/bin/* /usr/local/bin \
+  && cp /tmp/mysql-connector-odbc-8.0.19-linux-debian10-x86-64bit/lib/* /usr/local/lib \
+  && myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" \
+  && rm -rf /tmp/*
+  
+
+## Install R
+RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.gz \
+  ## Extract source code
+  && tar -C /tmp/ -zxvf /tmp/R-${R_VERSION}.tar.gz \
+  && cd /tmp/R-${R_VERSION} \
+  ## Set compiler flags
+  && R_PAPERSIZE=a4 \
+    R_BATCHSAVE="--no-save --no-restore" \
+    R_BROWSER=xdg-open \
+    PAGER=/usr/bin/pager \
+    PERL=/usr/bin/perl \
+    R_UNZIPCMD=/usr/bin/unzip \
+    R_ZIPCMD=/usr/bin/zip \
+    R_PRINTCMD=/usr/bin/lpr \
+    LIBnn=lib \
+    AWK=/usr/bin/awk \
+    CFLAGS="-g -O2 -Wall -pedantic -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2" \
+    CXXFLAGS="-g -O2 -Wall -pedantic -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2" \
+    CXX98FLAGS="-g -O2 -Wall -pedantic -fstack-protector-strong -D_FORTIFY_SOURCE=2" \
+    CXX11FLAGS="-g -O2 -Wall -pedantic -fstack-protector-strong -D_FORTIFY_SOURCE=2" \
+    CXX14FLAGS="-g -O2 -Wall -pedantic -fstack-protector-strong -D_FORTIFY_SOURCE=2" \
+  ## Configure options
+  ./configure --enable-R-shlib \
+              --enable-memory-profiling \
+              --with-readline \
+              --with-blas \
+              --with-tcltk \
+              --disable-nls \
+              --with-recommended-packages \
+  ## Build and install
+  && make \
+  && make install \
+  ## Add a default CRAN mirror
+  && echo "options(repos = c(CRAN='https://cloud.r-project.org/'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site \
+  # && MRAN=https://mran.microsoft.com/snapshot/$(date +'%Y-%m-%d') \
+  # && echo MRAN=$MRAN >> /etc/environment \
+  # && export MRAN=$MRAN \
+  # && echo "options(repos = c(CRAN='$MRAN'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site \
+  ## Add a library directory (for user-installed packages)
+  && mkdir -p /usr/local/lib/R/site-library \
+  && chown root:staff /usr/local/lib/R/site-library \
+  && chmod g+wx /usr/local/lib/R/site-library \
+  ## Fix library path
+  && echo "R_LIBS_USER=~/R/library \
+    \nTZ='Etc/UTC' \
+    \nR_MAX_NUM_DLLS=300 \
+    \nRENV_PATHS_CACHE=/renv_cache \
+    " >> /usr/local/lib/R/etc/Renviron \
+  && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'}" >> /usr/local/lib/R/etc/Renviron \
+  && rm -rf /tmp/*
+
+
+## Instal Shiny server
+RUN Rscript -e 'remotes::install_cran(c("shiny", "renv"), upgrade = "never", dependencies = TRUE)'
+RUN wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-$SHINY_VERSION-amd64.deb" -O ss-latest.deb \
+  && gdebi -n ss-latest.deb \
+  && rm -f version.txt ss-latest.deb \
+  && . /etc/environment \
+  && cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/ \
+  && usermod -g staff shiny \
+  && usermod -a -G shiny shiny \
+  && chown shiny:staff /var/lib/shiny-server \
+  && echo '### set locales \
+    \nexport LANG="en_US.UTF-8" \
+    \nexport LANGUAGE="en_US.UTF-8" \
+    \nexport LC_CTYPE="en_US.UTF-8" \
+    \nexport LC_NUMERIC="en_US.UTF-8" \
+    \nexport LC_TIME="en_US.UTF-8" \
+    \nexport LC_COLLATE="en_US.UTF-8" \
+    \nexport LC_MONETARY="en_US.UTF-8" \
+    \nexport LC_MESSAGES="en_US.UTF-8" \
+    \nexport LC_PAPER="en_US.UTF-8" \
+    \nexport LC_NAME="en_US.UTF-8" \
+    \nexport LC_ADDRESS="en_US.UTF-8" \
+    \nexport LC_TELEPHONE="en_US.UTF-8" \
+    \nexport LC_MEASUREMENT="en_US.UTF-8" \
+    \nexport LC_IDENTIFICATION="en_US.UTF-8" \
+    \nexport LC_ALL="en_US.UTF-8"' > /home/shiny/.bashrc \
+  && mkdir -p /var/log/shiny-server \
+  && chown shiny:staff /var/log/shiny-server
+  
+  
+## Clean up install
+RUN apt-get autoremove -y \
+  && apt-get autoclean -y \
+  && apt-get clean -y \
+  && rm -rf /var/lib/apt/lists/ \
+  && rm -rf /tmp/*
+  
+
+EXPOSE 3838
+
+
+RUN echo 'echo "shiny server is starting" \
+  \nif [ "$APPLICATION_LOGS_TO_STDOUT" != "false" ] \
+  \nthen \
+  \n    # push the "real" application logs to stdout with xtail in detached mode \
+  \n    exec xtail /var/log/shiny-server/ & \
+  \nfi \
+  \nexec shiny-server 2>&1"' > /boot.sh && chmod 755 boot.sh
+
+
+CMD ["/boot.sh"]
