@@ -196,10 +196,10 @@ RUN git -C /tmp/ clone --branch ${HTSLIB_VERSION} git://github.com/samtools/htsl
   
 
 ## Install gcta
-RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/gcta_${GCTA_VERSION}.zip \
-  && unzip -d /tmp/ /tmp/gcta_${GCTA_VERSION}.zip \
-  && cp /tmp/gcta_${GCTA_VERSION}/gcta64 /usr/bin/ \
-  && rm -rf /tmp/*
+# RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/gcta_${GCTA_VERSION}.zip \
+#   && unzip -d /tmp/ /tmp/gcta_${GCTA_VERSION}.zip \
+#   && cp /tmp/gcta_${GCTA_VERSION}/gcta64 /usr/bin/ \
+#   && rm -rf /tmp/*
 
 
 ## Add CrossMap
