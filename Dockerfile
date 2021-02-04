@@ -329,6 +329,7 @@ RUN Rscript \
     "palmerpenguins", \
     "data.table", \
     "R.utils", \
+    "bit64", \
     "tidyverse", \
     "shiny", \
     "clisymbols", \
