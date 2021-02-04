@@ -1,6 +1,6 @@
 # Biostatistics Docker Image
 
-* UMR1283: `v0.7.9.9000`  
+* UMR1283: `v0.8.0`  
 * R: `v4.0.3`  
 * RSTUDIO: `v1.4.1103`  
 * PANDOC_TEMPLATES: `v2.11.3`  
