@@ -78,10 +78,12 @@ RUN apt-get update \
     libcurl4-openssl-dev \ 
     libedit2 \ 
     libfreetype6-dev \
+    libfribidi-dev \
     libgc1c2 \ 
     libgdal-dev \ 
     libgit2-dev \
     libgsl-dev \ 
+    libharfbuzz-dev \
     libicu-dev \ 
     libio-socket-ssl-perl \ 
     libjpeg-dev \ 
