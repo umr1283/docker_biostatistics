@@ -60,6 +60,7 @@ RUN apt-get update \
     fastqtl \ 
     ffmpeg \ 
     file \ 
+    fontconfig \
     fonts-texgyre \ 
     g++ \ 
     gdebi \
@@ -76,6 +77,7 @@ RUN apt-get update \
     libclang-dev \ 
     libcurl4-openssl-dev \ 
     libedit2 \ 
+    libfreetype6-dev \
     libgc1c2 \ 
     libgdal-dev \ 
     libgit2-dev \
@@ -95,7 +97,6 @@ RUN apt-get update \
     libpango1.0-dev \ 
     libpangocairo-1.0-0 \ 
     libpcre2-dev \
-    libpcre3 \ 
     libpcre3-dev \ 
     libpng-dev \ 
     libpng16-16 \ 
@@ -108,14 +109,12 @@ RUN apt-get update \
     libssl-dev \ 
     libssh2-1-dev \
     libtesseract-dev \ 
-    libtiff5 \ 
     libtiff5-dev \ 
     libudunits2-dev \ 
     libv8-dev \ 
     libx11-dev \ 
     libxml2-dev \ 
     libxt-dev \ 
-    lmodern \ 
     lsb-release \ 
     make \ 
     man-db \ 
@@ -125,8 +124,6 @@ RUN apt-get update \
     pandoc \ 
     pandoc-citeproc \ 
     perl \ 
-    plink \ 
-    plink1.9 \ 
     procps \ 
     psmisc \ 
     python-setuptools \ 
@@ -138,11 +135,9 @@ RUN apt-get update \
     texinfo \ 
     tk8.6-dev \ 
     unzip \ 
-    vcftools \ 
     wget \ 
     x11proto-core-dev \ 
     xauth \ 
-    xclip \ 
     xfonts-base \ 
     xtail \
     xvfb \ 
@@ -194,6 +189,18 @@ RUN git -C /tmp/ clone --branch ${HTSLIB_VERSION} git://github.com/samtools/htsl
   && make install \
   && rm -rf /tmp/*
   
+  
+## Install PLINK
+RUN apt-get update && apt-get install -y --no-install-recommends plink
+
+
+## Install PLINK1.9
+RUN apt-get update && apt-get install -y --no-install-recommends plink1.9
+
+
+## Install VCFTOOLS
+RUN apt-get update && apt-get install -y --no-install-recommends vcftools
+
 
 ## Install gcta
 # RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/gcta_${GCTA_VERSION}.zip \
@@ -337,6 +344,7 @@ RUN Rscript \
     "rticles", \
     "distill", \
     "gt", \
+    "styler", \
     "dreamRs/prefixer", \
     paste0("umr1283/umr1283@v", Sys.getenv("UMR1283_VERSION")) \
   ))' \
