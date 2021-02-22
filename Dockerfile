@@ -332,6 +332,7 @@ RUN Rscript \
     "here", \
     "renv", \
     "ragg", \
+    "svglite", \
     "rhub", \
     "rsconnect", \
     "reprex", \
