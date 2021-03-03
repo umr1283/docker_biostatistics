@@ -263,7 +263,7 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.
   && make install \
   ## Add a default CRAN mirror
   && echo "options(repos = c(CRAN='https://cloud.r-project.org/'), download.file.method = 'libcurl') \
-    Sys.umask('0002')
+    Sys.umask('0002') \
     " >> /usr/local/lib/R/etc/Rprofile.site \
   # && MRAN=https://mran.microsoft.com/snapshot/$(date +'%Y-%m-%d') \
   # && echo MRAN=$MRAN >> /etc/environment \
