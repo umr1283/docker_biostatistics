@@ -162,7 +162,7 @@ RUN git config --system core.sharedRepository 0775 \
   
 
 ## Set default umask
-RUN echo "umask 0002" >> /etc/profile
+RUN echo "\n\umask 0002\n" >> /etc/profile
 
 
 ## Install libraries for databases
@@ -263,8 +263,8 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.
   && make install \
   ## Add a default CRAN mirror
   && echo "options(repos = c(CRAN='https://cloud.r-project.org/'), download.file.method = 'libcurl') \
-    Sys.umask('0002') \
-    " >> /usr/local/lib/R/etc/Rprofile.site \
+    \nSys.umask('0002') \
+    \n" >> /usr/local/lib/R/etc/Rprofile.site \
   # && MRAN=https://mran.microsoft.com/snapshot/$(date +'%Y-%m-%d') \
   # && echo MRAN=$MRAN >> /etc/environment \
   # && export MRAN=$MRAN \
