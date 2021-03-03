@@ -60,7 +60,7 @@ fi
 [ -f /media/User/$USER/.bash_profile ] || echo '
 # .bash_profile
 
-umask u=rwx,g=rwx,o=
+umask 0002
 
 ### ================================================================================================
 ### Set locales
@@ -94,12 +94,6 @@ export BLOCKSIZE=1k
 alias R="R --no-save --no-restore-data --no-init-file"
 alias Rscript="Rscript --no-init-file"
 
-alias gaa="git add --all"
-alias gam="git commit -am"
-alias gm="git commit -m"
-alias gp="git push"
-alias gss="git status"
-
 alias cp="cp -iv"                           # Nouvelle copie
 alias mv="mv -iv"                           # Nouveau move
 alias mkdir="mkdir -pv"                     # Nouvelle création de dossier
@@ -107,45 +101,5 @@ alias ll="ls -FlAhp --color=auto"           # Affiche fichier, dossier, et fichi
 alias l="ls -Flhp --color=auto"             # Affiche fichier et dossier
 alias ls="ls --color=auto" 
 cd() { builtin cd "$@"; ll; }               # Changement de dossier
-alias cd..="cd ../"                         # Retour en arrière rapide
-alias ..="cd ../"                           # Retour rapide 1 niveau
-alias ...="cd ../../"                       # Retour rapide 2 niveaux
-alias .3="cd ../../../"                     # Retour rapide 3 niveaux
-alias .4="cd ../../../../"                  # Retour rapide 4 niveaux
-alias .5="cd ../../../../../"               # Retour rapide 5 niveaux
-alias .6="cd ../../../../../../"            # Retour rapide 6 niveaux
-
-
-### ================================================================================================
-### Set ssh agent with key for every VM at startup
-if [ -f ~/.ssh/id_rsa ]; then
-
-  env=~/.ssh/agent_$(hostname).env
-  
-  agent_is_running() {
-    if [ "$SSH_AUTH_SOCK" ]; then
-      ssh-add -l >/dev/null 2>&1 || [ $? -eq 1 ]
-    else
-      false
-    fi
-  }
-  agent_has_keys() { ssh-add -l >/dev/null 2>&1; }
-  agent_load_env() { . "$env" >/dev/null; }
-  agent_start() { (umask 077; ssh-agent >"$env"); . "$env" >/dev/null; }
-  
-  if ! agent_is_running; then
-    agent_load_env
-  fi
-  
-  if ! agent_is_running; then
-    agent_start
-    ssh-add ~/.ssh/id_rsa
-  elif ! agent_has_keys; then
-    ssh-add ~/.ssh/id_rsa
-  fi
-
-  unset env
-  
-fi
 ' > /media/User/$USER/.bash_profile && chown -R $USER:staff /media/User/$USER
 
