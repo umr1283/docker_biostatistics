@@ -1,7 +1,7 @@
 FROM library/debian:buster
 
 
-ENV UMR1283_VERSION=0.8.1
+ENV UMR1283_VERSION=0.8.1.9000
 ENV R_VERSION=4.0.4
 ENV RSTUDIO_VERSION=1.4.1103
 ENV PANDOC_TEMPLATES_VERSION=2.11.4
@@ -355,7 +355,11 @@ RUN Rscript \
     "gt", \
     "styler", \
     "dreamRs/prefixer", \
-    paste0("umr1283/umr1283@v", Sys.getenv("UMR1283_VERSION")) \
+    ifelse( \
+      test = grepl("\\.9000", Sys.getenv("UMR1283_VERSION")), \
+      yes = "umr1283/umr1283", \
+      no = paste0("umr1283/umr1283@v", Sys.getenv("UMR1283_VERSION")) \
+    ) \
   ))' \
   -e 'pak::pak_cleanup(force = TRUE)'
 
