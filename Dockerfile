@@ -1,8 +1,8 @@
 FROM library/debian:buster
 
 
-ENV UMR1283_VERSION=0.8.1.9000
-ENV R_VERSION=4.0.4
+ENV UMR1283_VERSION=0.8.1
+ENV R_VERSION=3.6.3
 ENV RSTUDIO_VERSION=1.4.1103
 ENV PANDOC_TEMPLATES_VERSION=2.11.4
 ENV GCTA_VERSION=1.93.2beta
@@ -230,7 +230,7 @@ RUN chmod 755 /usr/local/bin/fexsend
 
 
 ## Install R
-RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/${R_VERSION//.*/}/R-${R_VERSION}.tar.gz \
+RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-${R_VERSION//.*/}/R-${R_VERSION}.tar.gz \
   ## Extract source code
   && tar -C /tmp/ -zxvf /tmp/R-${R_VERSION}.tar.gz \
   && cd /tmp/R-${R_VERSION} \
