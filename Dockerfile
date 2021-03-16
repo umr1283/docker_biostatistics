@@ -230,7 +230,7 @@ RUN chmod 755 /usr/local/bin/fexsend
 
 
 ## Install R
-RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-${R_VERSION//.*/}/R-${R_VERSION}.tar.gz \
+RUN wget -q -P /tmp/ "https://cran.r-project.org/src/base/R-${R_VERSION//.*/}/R-${R_VERSION}.tar.gz" \
   ## Extract source code
   && tar -C /tmp/ -zxvf /tmp/R-${R_VERSION}.tar.gz \
   && cd /tmp/R-${R_VERSION} \
