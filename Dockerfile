@@ -190,7 +190,7 @@ RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${HTSL
 
 
 ## Install BCFTOOLS
-wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+RUN wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
   && tar -xjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
   && cd /tmp/bcftools-${BCFTOOLS_VERSION} \
   && autoreconf -i \
