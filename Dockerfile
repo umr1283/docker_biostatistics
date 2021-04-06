@@ -2,13 +2,13 @@ FROM library/debian:buster
 
 
 ENV UMR1283_VERSION=0.8.1.9000
-ENV R_VERSION=4.0.4
-ENV RSTUDIO_VERSION=1.4.1103
-ENV PANDOC_TEMPLATES_VERSION=2.11.4
+ENV R_VERSION=4.0.5
+ENV RSTUDIO_VERSION=1.4.1106
+ENV PANDOC_TEMPLATES_VERSION=2.13
 ENV GCTA_VERSION=1.93.2beta
-ENV HTSLIB_VERSION=1.11
-ENV BCFTOOLS_VERSION=1.11
-ENV S6_VERSION=2.2.0.1
+ENV HTSLIB_VERSION=1.12
+ENV BCFTOOLS_VERSION=1.12
+ENV S6_VERSION=2.2.0.3
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 
@@ -274,7 +274,8 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${
   && chown root:staff /usr/local/lib/R/site-library \
   && chmod g+wx /usr/local/lib/R/site-library \
   ## Fix library path
-  && echo "R_LIBS_USER=~/R/library \
+  && echo "LANGUAGE='en_GB.UTF-8' \
+    \nR_LIBS_USER=~/R/library \
     \nTZ='Etc/UTC' \
     \nR_MAX_NUM_DLLS=300 \
     \nRENV_PATHS_CACHE=/renv_cache \
@@ -348,13 +349,9 @@ RUN Rscript \
     "bit64", \
     "tidyverse", \
     "shiny", \
-    "clisymbols", \
     "tinytex", \
-    "rticles", \
-    "distill", \
     "gt", \
     "styler", \
-    "dreamRs/prefixer", \
     ifelse( \
       test = grepl("\\.9000", Sys.getenv("UMR1283_VERSION")), \
       yes = "umr1283/umr1283", \
