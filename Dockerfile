@@ -180,7 +180,7 @@ RUN apt-get update \
 
 ## Install HTSLIB
 RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
-  && tar -xjf htslib-${HTSLIB_VERSION}.tar.bz2 \
+  && tar -C /tmp/ -xjf /tmp/htslib-${HTSLIB_VERSION}.tar.bz2 \
   && cd /tmp/htslib-${HTSLIB_VERSION} \
   && autoreconf -i \
   && ./configure --prefix=/usr \
@@ -191,7 +191,7 @@ RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${HTSL
 
 ## Install BCFTOOLS
 RUN wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
-  && tar -xjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+  && tar -C /tmp/ -xjf /tmp/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
   && cd /tmp/bcftools-${BCFTOOLS_VERSION} \
   && autoreconf -i \
   && ./configure --prefix=/usr \
