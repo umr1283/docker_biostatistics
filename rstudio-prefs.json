@@ -38,11 +38,11 @@
     "visual_markdown_editing_is_default": true,
     "spelling_dictionary_language": "en_GB",
     "cran_mirror": {
-        "name": "Global (CDN)",
-        "host": "RStudio",
-        "url": "http://cran.rstudio.com/",
+        "name": "France (Lyon 1) [https]",
+        "host": "Dept. of Biometry & Evol. Biology, University of Lyon",
+        "url": "http://pbil.univ-lyon1.fr/CRAN/",
         "secondary": "",
-        "country": "us"
+        "country": "fr"
     },
     "jobs_tab_visibility": "shown",
     "style_diagnostics": true,
