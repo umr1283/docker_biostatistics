@@ -176,24 +176,28 @@ RUN apt-get update \
   && cp /tmp/mysql-connector-odbc-8.0.19-linux-debian10-x86-64bit/lib/* /usr/local/lib \
   && myodbc-installer -a -d -n "MySQL ODBC 8.0 Driver" -t "Driver=/usr/local/lib/libmyodbc8w.so" \
   && rm -rf /tmp/*
-  
-  
+
+
+## Install HTSLIB
+RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
+  && tar -xjf htslib-${HTSLIB_VERSION}.tar.bz2 \
+  && cd /tmp/htslib-${HTSLIB_VERSION} \
+  && autoreconf -i \
+  && ./configure --prefix=/usr \
+  && make \
+  && make install \
+  && rm -rf /tmp/htslib-${HTSLIB_VERSION}
+
+
 ## Install BCFTOOLS
-RUN git -C /tmp/ clone --branch ${HTSLIB_VERSION} git://github.com/samtools/htslib.git \
-  && cd /tmp/htslib \
-  && autoheader \
-  && autoconf \
+wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+  && tar -xjf bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
+  && cd /tmp/bcftools-${BCFTOOLS_VERSION} \
+  && autoreconf -i \
   && ./configure --prefix=/usr \
   && make \
   && make install \
-  && git -C /tmp/ clone --branch ${BCFTOOLS_VERSION} git://github.com/samtools/bcftools.git \
-  && cd /tmp/bcftools \
-  && autoheader \
-  && autoconf \
-  && ./configure --prefix=/usr \
-  && make \
-  && make install \
-  && rm -rf /tmp/*
+  && rm -rf /tmp/bcftools-${BCFTOOLS_VERSION}
   
   
 ## Install PLINK
