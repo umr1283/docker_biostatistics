@@ -196,7 +196,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends vcftools
 
 ## Add CrossMap
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends python3.7-dev python3.7-venv ython3-pip \
+  && apt-get install -y --no-install-recommends python3.7-dev python3.7-venv python3-pip \
   && python3.7 -m pip install setuptools \
   && python3.7 -m pip install wheel \
   && python3.7 -m pip install CrossMap \
