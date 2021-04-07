@@ -5,8 +5,6 @@ ENV UMR1283_VERSION=0.8.1.9000
 ENV R_VERSION=4.0.5
 ENV RSTUDIO_VERSION=1.4.1106
 ENV PANDOC_TEMPLATES_VERSION=2.13
-ENV GCTA_VERSION=1.93.2beta
-ENV HTSLIB_VERSION=1.12
 ENV BCFTOOLS_VERSION=1.12
 ENV S6_VERSION=2.2.0.3
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
@@ -19,30 +17,30 @@ RUN apt-get update \
   && sed -i '/^#.* en_GB.* /s/^#//' /etc/locale.gen \
   && locale-gen en_GB.UTF-8 \
   && locale-gen en_US.UTF-8 \
-  && /usr/sbin/update-locale LANG="en_US.UTF-8" \
-  && /usr/sbin/update-locale LANGUAGE="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_CTYPE="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_NUMERIC="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_TIME="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_COLLATE="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_MONETARY="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_MESSAGES="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_PAPER="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_NAME="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_ADDRESS="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_TELEPHONE="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_MEASUREMENT="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_IDENTIFICATION="en_US.UTF-8" \
-  && /usr/sbin/update-locale LC_ALL="en_US.UTF-8"
+  && /usr/sbin/update-locale LANG="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LANGUAGE="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_CTYPE="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_NUMERIC="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_TIME="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_COLLATE="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_MONETARY="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_MESSAGES="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_PAPER="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_NAME="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_ADDRESS="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_TELEPHONE="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_MEASUREMENT="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_IDENTIFICATION="en_GB.UTF-8" \
+  && /usr/sbin/update-locale LC_ALL="en_GB.UTF-8"
 
 
 ## Set environment variable for path and locales
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
-ENV LC_ALL=en_US.UTF-8
-ENV LANGUAGE=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV LC_COLLATE=en_US.UTF-8
+ENV LC_ALL=en_GB.UTF-8
+ENV LANGUAGE=en_GB.UTF-8
+ENV LANG=en_GB.UTF-8
+ENV LC_COLLATE=en_GB.UTF-8
 
 
 ## Install libraries
@@ -178,17 +176,6 @@ RUN apt-get update \
   && rm -rf /tmp/*
 
 
-## Install HTSLIB
-RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${HTSLIB_VERSION}/htslib-${HTSLIB_VERSION}.tar.bz2 \
-  && tar -C /tmp/ -xjf /tmp/htslib-${HTSLIB_VERSION}.tar.bz2 \
-  && cd /tmp/htslib-${HTSLIB_VERSION} \
-  && autoreconf -i \
-  && ./configure --prefix=/usr \
-  && make \
-  && make install \
-  && rm -rf /tmp/htslib-${HTSLIB_VERSION}
-
-
 ## Install BCFTOOLS
 RUN wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BCFTOOLS_VERSION}/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
   && tar -C /tmp/ -xjf /tmp/bcftools-${BCFTOOLS_VERSION}.tar.bz2 \
@@ -200,32 +187,20 @@ RUN wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BC
   && rm -rf /tmp/bcftools-${BCFTOOLS_VERSION}
   
   
-## Install PLINK
-RUN apt-get update && apt-get install -y --no-install-recommends plink
-
-
-## Install PLINK1.9
-RUN apt-get update && apt-get install -y --no-install-recommends plink1.9
+## Install PLINK / PLINK1.9
+RUN apt-get update && apt-get install -y --no-install-recommends plink plink1.9
 
 
 ## Install VCFTOOLS
 RUN apt-get update && apt-get install -y --no-install-recommends vcftools
 
-
-## Install gcta
-# RUN wget -q -P /tmp/ http://cnsgenomics.com/software/gcta/bin/gcta_${GCTA_VERSION}.zip \
-#   && unzip -d /tmp/ /tmp/gcta_${GCTA_VERSION}.zip \
-#   && cp /tmp/gcta_${GCTA_VERSION}/gcta64 /usr/bin/ \
-#   && rm -rf /tmp/*
-
-
 ## Add CrossMap
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends python3-dev python3-pip python3-venv \
-  && pip3 install setuptools \
-  && pip3 install wheel \
-  && pip3 install CrossMap \
-  && pip3 install CrossMap --upgrade
+  && apt-get install -y --no-install-recommends python3.7-dev python3.7-venv ython3-pip \
+  && python3.7 -m pip install setuptools \
+  && python3.7 -m pip install wheel \
+  && python3.7 -m pip install CrossMap \
+  && python3.7 -m pip install CrossMap --upgrade
   
 
 ## Add fexsend client
@@ -265,26 +240,16 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${
   ## Build and install
   && make \
   && make install \
-  ## Add a default CRAN mirror
-  && echo "options(repos = c(CRAN='https://cloud.r-project.org/'), download.file.method = 'libcurl') \
+  && echo "options(repos = c(CRAN = 'https://cloud.r-project.org/'), download.file.method = 'libcurl') \
     \nSys.umask('0002') \
     \n" >> /usr/local/lib/R/etc/Rprofile.site \
-  # && MRAN=https://mran.microsoft.com/snapshot/$(date +'%Y-%m-%d') \
-  # && echo MRAN=$MRAN >> /etc/environment \
-  # && export MRAN=$MRAN \
-  # && echo "options(repos = c(CRAN='$MRAN'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site \
-  ## Add a library directory (for user-installed packages)
-  && mkdir -p /usr/local/lib/R/site-library \
-  && chown root:staff /usr/local/lib/R/site-library \
-  && chmod g+wx /usr/local/lib/R/site-library \
-  ## Fix library path
-  && echo "LANGUAGE='en_GB.UTF-8' \
+  && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/library:/usr/lib/R/library'} \
+    \nLANGUAGE='en_GB.UTF-8' \
     \nR_LIBS_USER=~/R/library \
     \nTZ='Etc/UTC' \
     \nR_MAX_NUM_DLLS=300 \
     \nRENV_PATHS_CACHE=/renv_cache \
     " >> /usr/local/lib/R/etc/Renviron \
-  && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'}" >> /usr/local/lib/R/etc/Renviron \
   && rm -rf /tmp/*
 
 
@@ -356,6 +321,7 @@ RUN Rscript \
     "tinytex", \
     "gt", \
     "styler", \
+    "prompt", \
     ifelse( \
       test = grepl("\\.9000", Sys.getenv("UMR1283_VERSION")), \
       yes = "umr1283/umr1283", \
