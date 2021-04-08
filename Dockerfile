@@ -321,7 +321,9 @@ RUN Rscript \
     "tinytex", \
     "gt", \
     "styler", \
+    "miniUI", \
     "prompt", \
+    "gert", \
     ifelse( \
       test = grepl("\\.9000", Sys.getenv("UMR1283_VERSION")), \
       yes = "umr1283/umr1283", \
