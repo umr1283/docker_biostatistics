@@ -114,7 +114,8 @@ RUN apt-get update \
     libv8-dev \ 
     libx11-dev \ 
     libxml2-dev \ 
-    libxt-dev \ 
+    libxt-dev \
+    libzmq3-dev \
     lsb-release \ 
     make \ 
     man-db \ 
