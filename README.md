@@ -6,5 +6,3 @@
 * PANDOC_TEMPLATES: `v2.13`  
 * BCFTOOLS: `v1.12`  
 * S6: `v2.2.0.3`  
-* S6_BEHAVIOUR_IF_STAGE2_FAILS2`  
-`  
