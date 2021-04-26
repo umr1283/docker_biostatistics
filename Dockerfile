@@ -241,10 +241,12 @@ RUN wget -q -P /tmp/ https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${
   ## Build and install
   && make \
   && make install \
+  && mkdir -p -m 775 /usr/local/lib/R/site-library \
+  && chown root:staff /usr/local/lib/R/site-library \
   && echo "options(repos = c(CRAN = 'https://cloud.r-project.org/'), download.file.method = 'libcurl') \
     \nSys.umask('0002') \
     \n" >> /usr/local/lib/R/etc/Rprofile.site \
-  && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/library:/usr/lib/R/library'} \
+  && echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'} \
     \nLANGUAGE='en_GB.UTF-8' \
     \nR_LIBS_USER=~/R/library \
     \nTZ='Etc/UTC' \
