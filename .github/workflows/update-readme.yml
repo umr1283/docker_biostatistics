@@ -15,7 +15,7 @@ jobs:
       run: |
         echo "# Biostatistics Docker Image" > README.md
         echo "" >> README.md
-        awk -F "=" 'NR >= 4 && NR <= 11 {sub(/^ENV /, "* ", $1); sub(/_VERSION/, ": `v", $1); print $1$2"`  "}' Dockerfile >> README.md
+        awk -F "=" 'NR >= 4 && NR <= 9 {sub(/^ENV /, "* ", $1); sub(/_VERSION/, ": `v", $1); print $1$2"`  "}' Dockerfile >> README.md
     - name: Commit README.md
       run: | 
         git config --global user.name "${{secrets.NAME}}"
