@@ -1,0 +1,20 @@
+on:
+  schedule:
+    - cron: '0 0 01 */3 *'
+
+name: pull-docker
+
+jobs:
+  pull-docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pull Docker images
+        run: |
+          timeout 1s docker pull umr1283/stat:shiny-v0.14
+          timeout 1s docker pull umr1283/stat:R362
+          timeout 1s docker pull umr1283/stat:R363
+          timeout 1s docker pull umr1283/stat:R402
+          timeout 1s docker pull umr1283/stat:R403
+          timeout 1s docker pull umr1283/stat:3.6.3
+          timeout 1s docker pull umr1283/stat:4.0.4
