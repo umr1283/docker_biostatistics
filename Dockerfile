@@ -186,6 +186,17 @@ RUN wget -q -P /tmp/ https://github.com/samtools/bcftools/releases/download/${BC
   && make \
   && make install \
   && rm -rf /tmp/bcftools-${BCFTOOLS_VERSION}
+
+
+## Install HTSLIB
+RUN wget -q -P /tmp/ https://github.com/samtools/htslib/releases/download/${BCFTOOLS_VERSION}/htslib-${BCFTOOLS_VERSION}.tar.bz2 \
+  && tar -C /tmp/ -xjf /tmp/htslib-${BCFTOOLS_VERSION}.tar.bz2 \
+  && cd /tmp/htslib-${BCFTOOLS_VERSION} \
+  && autoreconf -i \
+  && ./configure --prefix=/usr \
+  && make \
+  && make install \
+  && rm -rf /tmp/htslib-${BCFTOOLS_VERSION}
   
   
 ## Install PLINK / PLINK1.9
