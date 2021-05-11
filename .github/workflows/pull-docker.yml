@@ -18,3 +18,4 @@ jobs:
           timeout 1s docker pull umr1283/stat:R403
           timeout 1s docker pull umr1283/stat:3.6.3
           timeout 1s docker pull umr1283/stat:4.0.4
+          timeout 1s docker pull umr1283/stat:4.0.5
