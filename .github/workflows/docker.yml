@@ -23,7 +23,8 @@ jobs:
     
       - name: Commit README.md
         run: | 
-          git config --global user.name "${{secrets.NAME}}"
+          git config --local user.email "actions@github.com"
+          git config --global user.name "UMR1283 Biostatistics"
           git commit README.md -m 'Update README.md' || echo "No changes to commit"
           git push || echo "No changes to commit"
           
@@ -34,8 +35,8 @@ jobs:
           images: |
             umr1283/stat
           tags: |
-            type=ref,event=branch,value=dev
             type=semver,pattern={{version}}
+            type=raw,value=dev
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -56,6 +57,13 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: umr1283/stat
           
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
