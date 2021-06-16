@@ -1,5 +1,7 @@
 # Biostatistics Docker Image
 
+[![Docker](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml/badge.svg)](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml)
+
 * UMR1283: `v1.1.2`  
 * R: `v4.1.0`  
 * RSTUDIO: `v1.4.1717`  
