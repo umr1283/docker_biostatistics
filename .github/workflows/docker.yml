@@ -19,7 +19,7 @@ jobs:
         run: |
           echo "# Biostatistics Docker Image" > README.md
           echo "" >> README.md
-          echo ""[![Docker](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml/badge.svg)](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml)" >> README.md
+          echo "[![Docker](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml/badge.svg)](https://github.com/umr1283/docker_biostatistics/actions/workflows/docker.yml)" >> README.md
           echo "" >> README.md
           awk -F "=" 'NR >= 4 && NR <= 9 {sub(/^ENV /, "* ", $1); sub(/_VERSION/, ": `v", $1); print $1$2"`  "}' Dockerfile >> README.md
     
