@@ -214,6 +214,14 @@ RUN apt-get update \
   && python3.7 -m pip install CrossMap \
   && python3.7 -m pip install CrossMap --upgrade
   
+  
+## Add Microsoft Fonts
+RUN apt-get update \
+  && apt-get install libmspack0 cabextract \
+  && wget -q -P /tmp/ http://ftp.br.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.7_all.deb \
+  && dpkg -i ttf-mscorefonts-installer_3.7_all.deb \
+  && fc-cache -fv
+  
 
 ## Add fexsend client
 COPY fexsend /usr/local/bin/fexsend
