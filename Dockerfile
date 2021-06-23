@@ -219,8 +219,9 @@ RUN apt-get update \
 RUN apt-get update \
   && apt-get install libmspack0 cabextract \
   && wget -q -P /tmp/ http://ftp.br.debian.org/debian/pool/contrib/m/msttcorefonts/ttf-mscorefonts-installer_3.7_all.deb \
-  && dpkg -i ttf-mscorefonts-installer_3.7_all.deb \
-  && fc-cache -fv
+  && dpkg -i /tmp/ttf-mscorefonts-installer_3.7_all.deb \
+  && fc-cache -fv \
+  && rm /tmp/ttf-mscorefonts-installer_3.7_all.deb
   
 
 ## Add fexsend client
