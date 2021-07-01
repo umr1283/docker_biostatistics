@@ -16,11 +16,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Pull Docker images
         run: |
-          timeout 1s docker pull umr1283/stat:shiny-v0.14 ;
-          timeout 1s docker pull umr1283/stat:R362 ;
-          timeout 1s docker pull umr1283/stat:R363 ;
-          timeout 1s docker pull umr1283/stat:R402 ;
-          timeout 1s docker pull umr1283/stat:R403 ;
-          timeout 1s docker pull umr1283/stat:3.6.3 ;
-          timeout 1s docker pull umr1283/stat:4.0.4 ;
-          timeout 1s docker pull umr1283/stat:4.0.5 ;
+          timeout 1s docker pull umr1283/stat:shiny-v0.14 2> /dev/null
+          timeout 1s docker pull umr1283/stat:R362 2> /dev/null
+          timeout 1s docker pull umr1283/stat:R363 2> /dev/null
+          timeout 1s docker pull umr1283/stat:R402 2> /dev/null
+          timeout 1s docker pull umr1283/stat:R403 2> /dev/null
+          timeout 1s docker pull umr1283/stat:3.6.3 2> /dev/null
+          timeout 1s docker pull umr1283/stat:4.0.4 2> /dev/null
+          timeout 1s docker pull umr1283/stat:4.0.5 2> /dev/null
