@@ -8,6 +8,11 @@
     "reindent_on_paste": false,
     "syntax_color_console": true,
     "editor_theme": "Cobalt",
+    "theme": {
+        "name": "Cobalt",
+        "url": "theme/default/cobalt.rstheme",
+        "isDark": true
+    },
     "default_encoding": "UTF-8",
     "source_with_echo": false,
     "default_sweave_engine": "knitr",
@@ -51,11 +56,15 @@
     "rmd_chunk_output_inline": false,
     "rmd_viewer_type": "pane",
     "terminal_bell_style": "none",
-    "terminal_close_behavior": "never",
+    "terminal_close_behavior": "clean",
     "latex_preview_on_cursor_idle": "inline_only",
     "terminal_websockets": true,
     "console_double_click_select": true,
     "initial_working_directory": "~",
+    "show_diagnostics_other": true,
+    "use_tinytex": true,
+    "terminal_weblinks": false,
+    "terminal_close_behavior": "clean",
     "panes": {
         "quadrants": [
             "Source",
