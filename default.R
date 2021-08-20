@@ -1,7 +1,7 @@
 message(timestamp(quiet = TRUE))
 ### Project Setup ==================================================================================
 library(here)
-project_name <- gsub("(.*)_.*", "\\1", list.files(here(), pattern = ".Rproj$"))
+project_name <- sub("(.*)_[^_]*\\.Rproj$", "\\1", list.files(here(), pattern = ".Rproj$"))
 output_directory <- here("outputs", "99-new_script")
 dir.create(output_directory, recursive = TRUE, showWarnings = FALSE, mode = "0775")
 
@@ -13,7 +13,7 @@ suppressPackageStartupMessages({
 
 
 ### Tables and Figures Theme =======================================================================
-# theme_set(theme_light())
+# theme_set(theme_minimal(base_family = "Verdana"))
 
 
 ### Functions ======================================================================================
