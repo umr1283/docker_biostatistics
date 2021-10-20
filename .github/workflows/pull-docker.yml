@@ -6,6 +6,7 @@ on:
       - 'v*.*.*'
   schedule:
     - cron: '0 0 01 */3 *'
+  workflow_dispatch:
 
 name: pull-docker
 
