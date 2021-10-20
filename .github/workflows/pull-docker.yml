@@ -24,3 +24,4 @@ jobs:
           timeout 1s docker pull umr1283/stat:3.6.3 || true
           timeout 1s docker pull umr1283/stat:4.0.4 || true
           timeout 1s docker pull umr1283/stat:4.0.5 || true
+          timeout 1s docker pull umr1283/stat:4.1.0 || true
