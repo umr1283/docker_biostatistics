@@ -27,8 +27,8 @@ jobs:
     
       - name: Commit README.md
         run: | 
-          git config --local user.email "actions@github.com"
-          git config --local user.name "UMR1283 Biostatistics"
+          git config --local user.name "$GITHUB_ACTOR"
+          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
           git commit README.md -m 'Update README.md' || echo "No changes to commit"
           git push || echo "No changes to commit"
           
